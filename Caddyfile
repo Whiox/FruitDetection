@@ -1,4 +1,4 @@
-fruitdet.ru, www.fruitdet.ru {
+fruitdet.ru {
     encode gzip
 
     request_body {
