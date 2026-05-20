@@ -15,6 +15,7 @@ model.export(
     format="onnx",
     imgsz=640,
     simplify=True,
+    dynamic=False
 )
 
 lock = threading.Lock()
