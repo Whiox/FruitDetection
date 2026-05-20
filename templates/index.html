@@ -3,7 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>YOLO Demo</title>
+    <title>Fruit Detection</title>
+    <link rel="icon" type="image/png" href="/static/assets/favicon.png">
+    <link rel="apple-touch-icon" href="/static/assets/app-icon-192.png">
+    <meta name="theme-color" content="#090d12">
 
     <style>
         * {
@@ -13,27 +16,37 @@
         body {
             margin: 0;
             font-family: Arial, sans-serif;
-            background: #0f172a;
+            background: #090d12;
             color: #e5e7eb;
         }
 
         .container {
             width: min(1200px, 95%);
-            margin: 32px auto;
+            margin: 28px auto;
         }
 
         .header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
             margin-bottom: 24px;
         }
 
+        .app-icon {
+            width: 68px;
+            height: 68px;
+            border-radius: 18px;
+            box-shadow: 0 14px 34px rgba(0, 0, 0, 0.35);
+        }
+
         .header h1 {
-            margin: 0 0 8px;
+            margin: 0 0 6px;
             font-size: 32px;
         }
 
         .header p {
             margin: 0;
-            color: #94a3b8;
+            color: #9aa8ba;
             font-size: 16px;
         }
 
@@ -43,12 +56,18 @@
             gap: 20px;
         }
 
-        .panel {
+        .panel,
+        .image-card,
+        .stats-card,
+        .calc-card {
             background: #111827;
-            border: 1px solid #1f2937;
+            border: 1px solid #243142;
             border-radius: 18px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.24);
+        }
+
+        .panel {
             padding: 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
         }
 
         .left-panel {
@@ -69,8 +88,8 @@
 
         .drop-zone:hover,
         .drop-zone.dragover {
-            border-color: #3b82f6;
-            background: #111b31;
+            border-color: #38bdf8;
+            background: #101c30;
         }
 
         .drop-zone h3 {
@@ -92,6 +111,7 @@
             margin-top: 14px;
             padding: 12px 14px;
             background: #0b1220;
+            border: 1px solid #1e293b;
             border-radius: 12px;
             font-size: 14px;
             color: #cbd5e1;
@@ -111,7 +131,7 @@
             border-radius: 12px;
             padding: 14px 16px;
             font-size: 15px;
-            font-weight: 600;
+            font-weight: 700;
             cursor: pointer;
             transition: 0.2s ease;
         }
@@ -195,21 +215,23 @@
             gap: 20px;
         }
 
-        .images-grid {
+        .images-grid,
+        .results-section {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 20px;
         }
 
-        .image-card {
-            background: #111827;
-            border: 1px solid #1f2937;
-            border-radius: 18px;
+        .image-card,
+        .stats-card,
+        .calc-card {
             padding: 16px;
         }
 
-        .image-card h3 {
-            margin: 0 0 12px;
+        .image-card h3,
+        .stats-card h3,
+        .calc-card h3 {
+            margin: 0 0 14px;
             font-size: 18px;
         }
 
@@ -236,48 +258,34 @@
             background: #0b1220;
         }
 
-        .results-section {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-        }
-
-        .stats-card,
-        .calc-card {
-            background: #111827;
-            border: 1px solid #1f2937;
-            border-radius: 18px;
-            padding: 18px;
-        }
-
-        .stats-card h3,
-        .calc-card h3 {
-            margin: 0 0 16px;
-            font-size: 20px;
-        }
-
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 12px;
         }
 
-        .stat-item {
+        .stat-item,
+        .calc-item {
             background: #0b1220;
             border: 1px solid #1e293b;
             border-radius: 14px;
             padding: 14px;
+        }
+
+        .stat-item {
             text-align: center;
         }
 
-        .stat-label {
+        .stat-label,
+        .calc-title {
             color: #94a3b8;
             font-size: 14px;
             margin-bottom: 8px;
         }
 
-        .stat-value {
-            font-size: 28px;
+        .stat-value,
+        .calc-value {
+            font-size: 26px;
             font-weight: 700;
             color: #ffffff;
         }
@@ -288,42 +296,15 @@
             gap: 12px;
         }
 
-        .calc-item {
-            background: #0b1220;
-            border: 1px solid #1e293b;
-            border-radius: 14px;
-            padding: 14px;
-        }
-
-        .calc-title {
-            font-size: 15px;
-            color: #94a3b8;
-            margin-bottom: 6px;
-        }
-
-        .calc-value {
-            font-size: 20px;
-            font-weight: 700;
-            color: #ffffff;
-        }
-
-        .empty-note {
-            color: #64748b;
-            font-size: 14px;
-        }
-
         @media (max-width: 980px) {
-            .layout {
+            .layout,
+            .images-grid,
+            .results-section {
                 grid-template-columns: 1fr;
             }
 
             .left-panel {
                 position: static;
-            }
-
-            .images-grid,
-            .results-section {
-                grid-template-columns: 1fr;
             }
 
             .stats-grid {
@@ -335,8 +316,11 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>YOLO Demo</h1>
-            <p>Загрузи изображение, модель найдёт яблоки, огурцы и помидоры, а затем посчитает итоговые объёмы.</p>
+            <img class="app-icon" src="/static/assets/app-icon-192.png" alt="Fruit Detection">
+            <div>
+                <h1>Fruit Detection</h1>
+                <p>Загрузи изображение, модель найдёт яблоки, огурцы и помидоры, а затем посчитает итоговые объёмы.</p>
+            </div>
         </div>
 
         <div class="layout">
@@ -361,9 +345,9 @@
                 <div class="formula-box">
                     <h4>Формулы расчёта</h4>
                     <ul>
-                        <li>1 яблоко ≈ 0.15 л компота</li>
-                        <li>1 огурец ≈ 0.1 банки</li>
-                        <li>1 помидор ≈ 0.2 банки</li>
+                        <li>1 яблоко примерно 0.15 л компота</li>
+                        <li>1 огурец примерно 0.1 банки</li>
+                        <li>1 помидор примерно 0.2 банки</li>
                     </ul>
                 </div>
             </div>
@@ -372,7 +356,7 @@
                 <div class="images-grid">
                     <div class="image-card">
                         <h3>Исходное изображение</h3>
-                        <div class="image-box" id="originalBox">
+                        <div class="image-box">
                             <span id="originalPlaceholder">Здесь появится исходная картинка</span>
                             <img id="originalImage" alt="Исходное изображение">
                         </div>
@@ -380,9 +364,9 @@
 
                     <div class="image-card">
                         <h3>Результат детекции</h3>
-                        <div class="image-box" id="resultBox">
+                        <div class="image-box">
                             <span id="resultPlaceholder">Здесь появится изображение с bbox</span>
-                            <img id="resultImage" alt="Результат">
+                            <img id="resultImage" alt="Результат детекции">
                         </div>
                     </div>
                 </div>
@@ -451,18 +435,14 @@
         const tomatoJarsValue = document.getElementById("tomatoJarsValue");
 
         function setStatus(text, loading = false) {
-            if (loading) {
-                statusText.innerHTML = `<span class="loader"></span>${text}`;
-            } else {
-                statusText.textContent = text;
-            }
+            statusText.innerHTML = loading ? `<span class="loader"></span>${text}` : "";
+            if (!loading) statusText.textContent = text;
         }
 
         function updateOriginalPreview(file) {
             if (!file) return;
 
-            const url = URL.createObjectURL(file);
-            originalImage.src = url;
+            originalImage.src = URL.createObjectURL(file);
             originalImage.style.display = "block";
             originalPlaceholder.style.display = "none";
             selectedFile.textContent = file.name;
@@ -493,8 +473,8 @@
 
         dropZone.addEventListener("click", () => imageInput.click());
 
-        dropZone.addEventListener("dragover", (e) => {
-            e.preventDefault();
+        dropZone.addEventListener("dragover", (event) => {
+            event.preventDefault();
             dropZone.classList.add("dragover");
         });
 
@@ -502,24 +482,21 @@
             dropZone.classList.remove("dragover");
         });
 
-        dropZone.addEventListener("drop", (e) => {
-            e.preventDefault();
+        dropZone.addEventListener("drop", (event) => {
+            event.preventDefault();
             dropZone.classList.remove("dragover");
 
-            const file = e.dataTransfer.files[0];
+            const file = event.dataTransfer.files[0];
             if (file && file.type.startsWith("image/")) {
-                const dt = new DataTransfer();
-                dt.items.add(file);
-                imageInput.files = dt.files;
+                const dataTransfer = new DataTransfer();
+                dataTransfer.items.add(file);
+                imageInput.files = dataTransfer.files;
                 updateOriginalPreview(file);
             }
         });
 
         imageInput.addEventListener("change", () => {
-            const file = imageInput.files[0];
-            if (file) {
-                updateOriginalPreview(file);
-            }
+            updateOriginalPreview(imageInput.files[0]);
         });
 
         clearBtn.addEventListener("click", clearAll);
