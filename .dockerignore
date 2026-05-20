@@ -16,3 +16,4 @@ datasets/
 *.zip
 *.rar
 *.7z
+*.onnx

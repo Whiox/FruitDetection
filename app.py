@@ -1,4 +1,6 @@
-from flask import Flask, render_template, request, jsonify
+from pathlib import Path
+
+from flask import Flask, render_template, request, jsonify, send_file
 from ultralytics import YOLO
 import numpy as np
 import cv2
@@ -8,6 +10,13 @@ import base64
 app = Flask(__name__)
 
 model = YOLO("model/best.pt")
+
+model.export(
+    format="onnx",
+    imgsz=640,
+    simplify=True,
+)
+
 lock = threading.Lock()
 
 CLASS_NAMES = {
@@ -78,6 +87,17 @@ def predict():
         "counts": counts,
         "calculations": calculations,
     })
+
+
+@app.route("/download-model")
+def get_onnx_model():
+    file_path = Path("model/best.onnx")
+
+    return send_file(
+        file_path,
+        as_attachment=True,
+        download_name="best.onnx"
+    )
 
 
 if __name__ == "__main__":
