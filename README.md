@@ -10,7 +10,7 @@
 ## [Блокнот](https://colab.research.google.com/drive/1Lz63sQ9nS10Gul4gbbhQq0HPdUx6qAqZ?usp=sharing) с обучением
 
 # Демо
-## [Сайт](fruitdet.ru) + [Telegram бот](t.me/FruitDetBot)  (Запущены до 02.06.2026)
+## [Сайт](https://fruitdet.ru) + [Telegram бот](https://t.me/FruitDetBot)  (Запущены до 02.06.2026)
 
 # Запуск (с Caddy)
 
