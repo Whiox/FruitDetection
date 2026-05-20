@@ -1,5 +1,6 @@
 flask
 gunicorn
 ultralytics
+onnx
 opencv-python-headless
 python-dotenv
