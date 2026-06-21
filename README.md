@@ -7,8 +7,8 @@
 рамками и показывает уверенность модели.
 
 <p align="center">
-<img src="assets/sample1.png" alt="Пример 1" width="300" height="300">
-<img src="assets/sample2.png" alt="Пример 1" width="300" height="300">
+<img src="assets/sample1.jfif" alt="Пример 1" width="300" height="300">
+<img src="assets/sample2.jfif" alt="Пример 1" width="300" height="300">
 </p>
 
 ## Возможности
