@@ -11,12 +11,13 @@ app = Flask(__name__)
 
 model = YOLO("model/best.pt")
 
-model.export(
-    format="onnx",
-    imgsz=640,
-    simplify=True,
-    dynamic=False
-)
+if not Path("model/best.onnx").exists():
+    model.export(
+        format="onnx",
+        imgsz=640,
+        simplify=True,
+        dynamic=False
+    )
 
 lock = threading.Lock()
 
